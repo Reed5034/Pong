@@ -43,6 +43,8 @@ const ball = {
   vy: 5,
   speed: 6,
   maxSpeed: 16,
+  hitCount: 0,
+  maxHitCount: 5,
 };
 
 const keys = {};
@@ -58,6 +60,8 @@ function resetBall(lastScorer = null) {
 
   ball.x = canvas.width / 2;
   ball.y = canvas.height / 2;
+  ball.speed = 6;
+  ball.hitCount = 0;
   ball.vx = Math.cos(angle) * ball.speed * direction;
   ball.vy = Math.sin(angle) * ball.speed;
 }
@@ -139,7 +143,11 @@ function updateBall() {
       const speedBoost = Math.min(1.45, 1 + (Math.abs(ball.vx) / 6) * 0.12);
       const direction = isLeft ? 1 : -1;
 
-      ball.speed = Math.min(ball.maxSpeed, ball.speed + 0.7);
+      if (ball.hitCount < ball.maxHitCount) {
+        ball.hitCount += 1;
+        ball.speed = Math.min(ball.maxSpeed, 6 + ball.hitCount * 1.6);
+      }
+
       ball.vx = Math.cos(angle) * ball.speed * speedBoost * direction;
       ball.vy = Math.sin(angle) * ball.speed * speedBoost;
 
