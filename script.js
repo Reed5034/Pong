@@ -42,6 +42,7 @@ const ball = {
   vx: 5,
   vy: 5,
   speed: 6,
+  maxSpeed: 16,
 };
 
 const keys = {};
@@ -125,31 +126,39 @@ function updateBall() {
   const leftPaddle = paddle.left;
   const rightPaddle = paddle.right;
 
-  const collidesWithLeft =
-    ball.x - ball.radius <= leftPaddle.x + paddle.width &&
-    ball.x + ball.radius >= leftPaddle.x &&
-    ball.y >= leftPaddle.y &&
-    ball.y <= leftPaddle.y + paddle.height &&
-    ball.vx < 0;
+  function checkPaddleCollision(paddleState, isLeft) {
+    const closestX = Math.max(paddleState.x, Math.min(ball.x, paddleState.x + paddle.width));
+    const closestY = Math.max(paddleState.y, Math.min(ball.y, paddleState.y + paddle.height));
+    const dx = ball.x - closestX;
+    const dy = ball.y - closestY;
+    const distanceSquared = dx * dx + dy * dy;
 
-  const collidesWithRight =
-    ball.x + ball.radius >= rightPaddle.x &&
-    ball.x - ball.radius <= rightPaddle.x + paddle.width &&
-    ball.y >= rightPaddle.y &&
-    ball.y <= rightPaddle.y + paddle.height &&
-    ball.vx > 0;
+    if (distanceSquared <= ball.radius * ball.radius) {
+      const impact = (ball.y - (paddleState.y + paddle.height / 2)) / (paddle.height / 2);
+      const angle = impact * (Math.PI / 3);
+      const speedBoost = Math.min(1.45, 1 + (Math.abs(ball.vx) / 6) * 0.12);
+      const direction = isLeft ? 1 : -1;
 
-  if (collidesWithLeft || collidesWithRight) {
-    const targetY = (ball.y - (leftPaddle.y + paddle.height / 2)) / (paddle.height / 2);
-    const angle = (targetY * Math.PI) / 3;
-    const speedBoost = Math.min(1.2, 1 + (Math.abs(ball.vx) / 6) * 0.1);
+      ball.speed = Math.min(ball.maxSpeed, ball.speed + 0.7);
+      ball.vx = Math.cos(angle) * ball.speed * speedBoost * direction;
+      ball.vy = Math.sin(angle) * ball.speed * speedBoost;
 
-    const direction = collidesWithLeft ? 1 : -1;
-    ball.vx = Math.cos(angle) * ball.speed * speedBoost * direction;
-    ball.vy = Math.sin(angle) * ball.speed * speedBoost;
-    ball.x = collidesWithLeft
-      ? leftPaddle.x + paddle.width + ball.radius + 1
-      : rightPaddle.x - ball.radius - 1;
+      ball.x = isLeft
+        ? paddleState.x + paddle.width + ball.radius + 1
+        : paddleState.x - ball.radius - 1;
+
+      return true;
+    }
+
+    return false;
+  }
+
+  if (ball.vx < 0) {
+    checkPaddleCollision(leftPaddle, true);
+  }
+
+  if (ball.vx > 0) {
+    checkPaddleCollision(rightPaddle, false);
   }
 
   if (ball.x - ball.radius < 0) {
