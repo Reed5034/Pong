@@ -1,0 +1,104 @@
+:root {
+  --bg: #07130d;
+  --panel: rgba(12, 31, 18, 0.9);
+  --table: #0d6b43;
+  --table-dark: #0a5638;
+  --line: rgba(248, 250, 252, 0.92);
+  --text: #f2f9f4;
+  --accent: #d9f99d;
+  --accent-strong: #bbf7d0;
+  --shadow: rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at top, #143524 0%, var(--bg) 46%);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.game-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent-strong);
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.scoreboard {
+  width: min(960px, 90vw);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
+  border: 2px solid rgba(248, 250, 252, 0.25);
+  background: rgba(12, 31, 18, 0.86);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+}
+
+.score-block {
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-weight: 700;
+}
+
+.score-block.center {
+  justify-content: center;
+  min-width: 160px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.label {
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+#score-left,
+#score-right {
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  color: #fff;
+}
+
+#gameCanvas {
+  width: min(960px, 90vw);
+  height: auto;
+  background: var(--table);
+  border: 4px solid rgba(248, 250, 252, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 22px 42px rgba(0, 0, 0, 0.38), inset 0 0 22px rgba(255, 255, 255, 0.08);
+}
+
+.controls {
+  width: min(960px, 90vw);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+  opacity: 0.9;
+}

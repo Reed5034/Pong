@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ping Pong - Two Player</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <h1>Ping Pong</h1>
+      <div class="scoreboard">
+        <div class="score-block">
+          <span class="label">Player 1</span>
+          <span id="score-left">0</span>
+        </div>
+        <div class="score-block center">
+          <span class="label">First to 7</span>
+        </div>
+        <div class="score-block">
+          <span class="label">Player 2</span>
+          <span id="score-right">0</span>
+        </div>
+      </div>
+      <canvas id="gameCanvas" width="960" height="540" aria-label="Two-player Pong game"></canvas>
+      <div class="controls">
+        <span>W / S + A / D</span>
+        <span>↑ / ↓ + ← / →</span>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
